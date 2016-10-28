@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,8 @@ public:
 
 private slots:
     QString getFileNameFromPath(QString);
+
+    void closeEvent(QCloseEvent*);
 
     void on_actionNew_triggered();
 

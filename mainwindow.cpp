@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <QDir>
 #include <QMessageBox>
+#include <QCloseEvent>
 //TODO: remove me on final release
 #include <QDebug>
 
@@ -54,7 +55,15 @@ QString MainWindow::getFileNameFromPath(QString path){
 
 void MainWindow::on_actionNew_triggered()
 {
-    //TODO: code for unsaved changes
+    //Checks if the user has unsaved changes, asks to confirm action
+    if (file_changed){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"Notepad", "The document contains unsaved changes. Are you sure you wish to proceed?",QMessageBox::Yes|QMessageBox::No);
+        //Exits method if they answer no, else proceeds normally
+        if (reply == QMessageBox::No){
+            return;
+        }
+    }
 
     //Resets tracking vars and clears text box
     file_path = "";
@@ -73,6 +82,16 @@ void MainWindow::on_actionNew_triggered()
 //TODO: Make title reflect the name of the file you have open
 void MainWindow::on_actionOpen_triggered()
 {
+    //Checks if the user has unsaved changes, asks to confirm action
+    if (file_changed){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"Notepad", "The document contains unsaved changes. Are you sure you wish to proceed?",QMessageBox::Yes|QMessageBox::No);
+        //Exits method if they answer no, else proceeds normally
+        if (reply == QMessageBox::No){
+            return;
+        }
+    }
+
     //Specifies what types of files the program can open
     QString filters = "Text File (*.txt);;All Files (*.*)";
 
@@ -222,5 +241,24 @@ void MainWindow::on_textEdit_textChanged()
         //Otherwise we don't, and we're using the filler "New Document" name
         else {
             MainWindow::setWindowTitle("New Document* - Notepad");        }
+    }
+}
+
+//Confirms the user exiting the application if there are unsaved changes
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    //Quits normally if no unsaved changes in current document
+    if (!file_changed){
+        return;
+    }
+
+    //Else, prompts user to confirm quitting with unsaved changes
+    QMessageBox::StandardButton reply = QMessageBox::question( this, tr("Notepad"),
+                                                                     tr("The document contains unsaved changes. Are you sure you wish to exit?"),
+                                                                     QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        event->accept();
+    } else {
+        event->ignore();
     }
 }
