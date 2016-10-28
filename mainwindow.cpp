@@ -6,8 +6,6 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QCloseEvent>
-//TODO: remove me on final release
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -78,8 +76,6 @@ void MainWindow::on_actionNew_triggered()
     file_changed = false;
 }
 
-//TODO: Make it remember the last directory you open, so it doesn't keep reverting to dir of executable
-//TODO: Make title reflect the name of the file you have open
 void MainWindow::on_actionOpen_triggered()
 {
     //Checks if the user has unsaved changes, asks to confirm action
@@ -96,7 +92,7 @@ void MainWindow::on_actionOpen_triggered()
     QString filters = "Text File (*.txt);;All Files (*.*)";
 
     //Prompts user with file dialog to locate desired file
-    file_path = QFileDialog::getOpenFileName(this,"Open File",QDir::currentPath(),filters);
+    file_path = QFileDialog::getOpenFileName(this,"Open File",QDir::homePath(),filters);
 
     //Obtains file name
     file_name = getFileNameFromPath(file_path);
@@ -104,8 +100,7 @@ void MainWindow::on_actionOpen_triggered()
     //Attempt to open file
     QFile file(file_path);
     if (!file.open(QFile::ReadOnly | QFile::Text)){
-        //If file fails to open, display error and exit method
-        QMessageBox::warning(this, "Error", "Error opening file");
+        //If file fails to open, exit method
         return;
     }
 
@@ -165,13 +160,12 @@ void MainWindow::on_actionSave_As_triggered()
     QString filters = "Text File (*.txt);;All Files (*.*)";
 
     //Prompts user with file dialog to locate desired file
-    file_path = QFileDialog::getSaveFileName(this,"Save File",QDir::currentPath(),filters);
+    file_path = QFileDialog::getSaveFileName(this,"Save File",QDir::homePath(),filters);
 
     //Attempt to open file
     QFile file(file_path);
     if (!file.open(QFile::WriteOnly | QFile::Text)){
-        //If file fails to open, display error and exit method
-        QMessageBox::warning(this, "Error", "Error saving file");
+        //If file fails to open exit method
         return;
     }
 
@@ -221,7 +215,7 @@ void MainWindow::on_actionUndo_triggered()
 
 void MainWindow::on_actionAbout_Notepad_triggered()
 {
-    QMessageBox::information(this,"About Notepad","Notepad\nVersion .1, Rev 0\nDate of release: 10/26/16\nLicense: GNU General Public License\nAuthor: Steven Karr\nContact: stevenkarr93@gmail.com");
+    QMessageBox::information(this,"About Notepad","Notepad\nVersion .9, Rev 0\nDate of release: 10/26/16\nLicense: GNU General Public License\nAuthor: Steven Karr\nContact: stevenkarr93@gmail.com");
 }
 
 //The purpose of the code here is to append an asterisk to the name on the

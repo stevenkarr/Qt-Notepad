@@ -47,6 +47,7 @@ private:
     Ui::MainWindow *ui;
     QString file_path;
     QString file_name;
+    QString last_directory;
     bool file_changed;
 };
 
