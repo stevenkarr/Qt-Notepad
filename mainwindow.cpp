@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <QDir>
 #include <QMessageBox>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(ui->textEdit);
 
     //Initializes window title
-    ui->statusBar->setWindowTitle("New Document - Notepad");
+    MainWindow::setWindowTitle("New Document - Notepad");
 }
 
 MainWindow::~MainWindow()
@@ -24,12 +25,39 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//Extracts a file name from a path. i.e. "C:/example.txt" -> "example.txt"
+QString MainWindow::getFileNameFromPath(QString path){
+    //We will build the string containing the filename backwards
+    QString filename = "";
+
+    //Look at each char, starting form the end
+    for (int i = path.length()-1; i >= 0; i--){
+        //Char at current position
+        QChar c = path[i];
+
+        //Appends the current char if it is not our termination symbol, '/'
+        if (c != QChar('/')){
+            filename = c + filename;
+        }
+        //Else if we find the symbol, we've finished building the filename
+        else {
+            return filename;
+        }
+    }
+
+    return filename;
+}
+
 void MainWindow::on_actionNew_triggered()
 {
+    //Set window title to reflect new document
+    MainWindow::setWindowTitle("New Document - Notepad");
+
     //TODO: code for unsaved changes
 
-    //Resets path var and clears text box
+    //Resets path & filename vars and clears text box
     file_path = "";
+    file_name = "";
     ui->textEdit->setText("");
 }
 
@@ -42,6 +70,11 @@ void MainWindow::on_actionOpen_triggered()
 
     //Prompts user with file dialog to locate desired file
     file_path = QFileDialog::getOpenFileName(this,"Open File",QDir::currentPath(),filters);
+
+    //Obtains file name
+    file_name = getFileNameFromPath(file_path);
+
+    MainWindow::setWindowTitle(file_name + " - Notepad");
 
     //Attempt to open file
     QFile file(file_path);
@@ -70,7 +103,7 @@ void MainWindow::on_actionSave_triggered()
         return;
     }
 
-    //Attempt to open file
+    //Attempt to save to file
     QFile file(file_path);
     if (!file.open(QFile::WriteOnly | QFile::Text)){
         //If file fails to open, display error and exit method
@@ -95,6 +128,13 @@ void MainWindow::on_actionSave_As_triggered()
 
     //Prompts user with file dialog to locate desired file
     file_path = QFileDialog::getSaveFileName(this,"Save File",QDir::currentPath(),filters);
+
+    //Obtains file name
+    file_name = getFileNameFromPath(file_path);
+
+    //Updates window title with newly specified filename
+    MainWindow::setWindowTitle(file_name + " - Notepad");
+    qDebug() << "path: " + file_path + "\n" + "name: " + file_name;
 
     //Attempt to open file
     QFile file(file_path);
@@ -143,3 +183,5 @@ void MainWindow::on_actionAbout_Notepad_triggered()
 {
     QMessageBox::information(this,"About Notepad","Notepad\nVersion .1, Rev 0\nDate of release: 10/26/16\nLicense: GNU General Public License\nAuthor: Steven Karr\nContact: stevenkarr93@gmail.com");
 }
+
+

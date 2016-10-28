@@ -16,6 +16,8 @@ public:
     ~MainWindow();
 
 private slots:
+    QString getFileNameFromPath(QString);
+
     void on_actionNew_triggered();
 
     void on_actionOpen_triggered();
@@ -39,6 +41,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QString file_path;
+    QString file_name;
 };
 
 #endif // MAINWINDOW_H
