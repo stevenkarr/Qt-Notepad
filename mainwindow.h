@@ -38,10 +38,13 @@ private slots:
 
     void on_actionAbout_Notepad_triggered();
 
+    void on_textEdit_textChanged();
+
 private:
     Ui::MainWindow *ui;
     QString file_path;
     QString file_name;
+    bool file_changed;
 };
 
 #endif // MAINWINDOW_H

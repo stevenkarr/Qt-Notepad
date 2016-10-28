@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <QDir>
 #include <QMessageBox>
+//TODO: remove me on final release
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,6 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Initializes window title
     MainWindow::setWindowTitle("New Document - Notepad");
+
+    //Initializes change var
+    file_changed = false;
 }
 
 MainWindow::~MainWindow()
@@ -50,15 +54,19 @@ QString MainWindow::getFileNameFromPath(QString path){
 
 void MainWindow::on_actionNew_triggered()
 {
-    //Set window title to reflect new document
-    MainWindow::setWindowTitle("New Document - Notepad");
-
     //TODO: code for unsaved changes
 
-    //Resets path & filename vars and clears text box
+    //Resets tracking vars and clears text box
     file_path = "";
     file_name = "";
     ui->textEdit->setText("");
+
+    //Set window title to reflect new document
+    MainWindow::setWindowTitle("New Document - Notepad");
+
+    //This var must be reset after setting the window title because textChanged()
+    // will be called from the previous line
+    file_changed = false;
 }
 
 //TODO: Make it remember the last directory you open, so it doesn't keep reverting to dir of executable
@@ -74,8 +82,6 @@ void MainWindow::on_actionOpen_triggered()
     //Obtains file name
     file_name = getFileNameFromPath(file_path);
 
-    MainWindow::setWindowTitle(file_name + " - Notepad");
-
     //Attempt to open file
     QFile file(file_path);
     if (!file.open(QFile::ReadOnly | QFile::Text)){
@@ -90,6 +96,10 @@ void MainWindow::on_actionOpen_triggered()
 
     //Display on screen
     ui->textEdit->setText(text);
+
+    //Sets window title to reflect opened file name
+    MainWindow::setWindowTitle(file_name + " - Notepad");
+    file_changed = false;
 
     //Close file
     file.close();
@@ -111,37 +121,10 @@ void MainWindow::on_actionSave_triggered()
         return;
     }
 
-    //Connect text stream to file for output, then write to file
-    QTextStream out(&file);
-    QString text = ui->textEdit->toPlainText();
-    out << text;
-
-    //Flush stream and close file
-    out.flush();
-    file.close();
-}
-
-void MainWindow::on_actionSave_As_triggered()
-{
-    //Specifies what types of files the program can open
-    QString filters = "Text File (*.txt);;All Files (*.*)";
-
-    //Prompts user with file dialog to locate desired file
-    file_path = QFileDialog::getSaveFileName(this,"Save File",QDir::currentPath(),filters);
-
-    //Obtains file name
-    file_name = getFileNameFromPath(file_path);
-
-    //Updates window title with newly specified filename
-    MainWindow::setWindowTitle(file_name + " - Notepad");
-    qDebug() << "path: " + file_path + "\n" + "name: " + file_name;
-
-    //Attempt to open file
-    QFile file(file_path);
-    if (!file.open(QFile::WriteOnly | QFile::Text)){
-        //If file fails to open, display error and exit method
-        QMessageBox::warning(this, "Error", "Error saving file");
-        return;
+    //Updates window title if necessary
+    if (file_changed){
+        MainWindow::setWindowTitle(file_name + " - Notepad");
+        file_changed = false;
     }
 
     //Connect text stream to file for output, then write to file
@@ -152,6 +135,44 @@ void MainWindow::on_actionSave_As_triggered()
     //Flush stream and close file
     out.flush();
     file.close();
+
+    //Reset changed bool
+    file_changed = false;
+}
+
+void MainWindow::on_actionSave_As_triggered()
+{
+    //Specifies what types of files the program can open
+    QString filters = "Text File (*.txt);;All Files (*.*)";
+
+    //Prompts user with file dialog to locate desired file
+    file_path = QFileDialog::getSaveFileName(this,"Save File",QDir::currentPath(),filters);
+
+    //Attempt to open file
+    QFile file(file_path);
+    if (!file.open(QFile::WriteOnly | QFile::Text)){
+        //If file fails to open, display error and exit method
+        QMessageBox::warning(this, "Error", "Error saving file");
+        return;
+    }
+
+    //Obtains file name
+    file_name = getFileNameFromPath(file_path);
+
+    //Updates window title with newly specified filename
+    MainWindow::setWindowTitle(file_name + " - Notepad");
+
+    //Connect text stream to file for output, then write to file
+    QTextStream out(&file);
+    QString text = ui->textEdit->toPlainText();
+    out << text;
+
+    //Flush stream and close file
+    out.flush();
+    file.close();
+
+    //Reset changed bool
+    file_changed = false;
 }
 
 void MainWindow::on_actionCut_triggered()
@@ -184,4 +205,22 @@ void MainWindow::on_actionAbout_Notepad_triggered()
     QMessageBox::information(this,"About Notepad","Notepad\nVersion .1, Rev 0\nDate of release: 10/26/16\nLicense: GNU General Public License\nAuthor: Steven Karr\nContact: stevenkarr93@gmail.com");
 }
 
-
+//The purpose of the code here is to append an asterisk to the name on the
+// window title to demonstrate the file is changed, and notify the user should
+// they attempt to close or open a file with unsaved changes to the
+// current document.
+void MainWindow::on_textEdit_textChanged()
+{
+    //If we've found user has made a change..
+    if (!file_changed){
+        //Set flag var
+        file_changed = true;
+        //If a file has been opened, we have a filename to work with
+        if (file_name.length() > 0){
+            MainWindow::setWindowTitle(file_name + "* - Notepad");
+        }
+        //Otherwise we don't, and we're using the filler "New Document" name
+        else {
+            MainWindow::setWindowTitle("New Document* - Notepad");        }
+    }
+}
