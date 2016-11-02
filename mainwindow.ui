@@ -14,9 +14,13 @@
    <string>Notepad</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QTextEdit" name="textEdit"/>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QTextEdit" name="textEdit"/>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -42,6 +46,7 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
+    <addaction name="actionChoose_Font"/>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
@@ -71,6 +76,7 @@
    <addaction name="actionSave"/>
    <addaction name="actionSave_As"/>
    <addaction name="separator"/>
+   <addaction name="actionChoose_Font"/>
    <addaction name="actionCut"/>
    <addaction name="actionCopy"/>
    <addaction name="actionPaste"/>
@@ -80,7 +86,11 @@
    <addaction name="separator"/>
    <addaction name="actionAbout_Notepad"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+  </widget>
   <action name="actionNew">
    <property name="icon">
     <iconset resource="resource.qrc">
@@ -193,6 +203,18 @@
    </property>
    <property name="text">
     <string>&amp;About Notepad</string>
+   </property>
+  </action>
+  <action name="actionChoose_Font">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/img/img/font.png</normaloff>:/img/img/font.png</iconset>
+   </property>
+   <property name="text">
+    <string>Choose &amp;Font</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F</string>
    </property>
   </action>
  </widget>

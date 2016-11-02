@@ -6,6 +6,8 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QFontDialog>
+#include <QFont>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Initializes change var
     file_changed = false;
+
+    //Initialize last directory
+    file_dir = QDir::homePath();
 }
 
 MainWindow::~MainWindow()
@@ -51,6 +56,28 @@ QString MainWindow::getFileNameFromPath(QString path){
     return filename;
 }
 
+//Extracts the directory from file path. i.e. "C:/example.txt" -> "C:/"
+QString MainWindow::getFileDirFromPath(QString path){
+    //We will build the string containing the filename backwards
+    QString filename = "";
+
+    //First task is to find the index of the rightmost "/" character, then
+    // we'll build the string
+    for (int i = path.length()-1; i >= 0; i--){
+        //Char at current position
+        QChar c = path[i];
+
+        //Returns a substring once the right index is found
+        if (c == QChar('/')){
+            return path.left(i+1);
+        }
+    }
+
+    //Else no char was found, invalid path
+    return filename;
+}
+
+//Acion Event representing creating a new document
 void MainWindow::on_actionNew_triggered()
 {
     //Checks if the user has unsaved changes, asks to confirm action
@@ -65,6 +92,7 @@ void MainWindow::on_actionNew_triggered()
 
     //Resets tracking vars and clears text box
     file_path = "";
+    file_dir = "";
     file_name = "";
     ui->textEdit->setText("");
 
@@ -76,6 +104,7 @@ void MainWindow::on_actionNew_triggered()
     file_changed = false;
 }
 
+//Action Event representing opening a new document
 void MainWindow::on_actionOpen_triggered()
 {
     //Checks if the user has unsaved changes, asks to confirm action
@@ -92,10 +121,13 @@ void MainWindow::on_actionOpen_triggered()
     QString filters = "Text File (*.txt);;All Files (*.*)";
 
     //Prompts user with file dialog to locate desired file
-    file_path = QFileDialog::getOpenFileName(this,"Open File",QDir::homePath(),filters);
+    file_path = QFileDialog::getOpenFileName(this,"Open File",file_dir,filters);
 
     //Obtains file name
     file_name = getFileNameFromPath(file_path);
+
+    //Obtains file directory
+    file_dir = getFileDirFromPath(file_path);
 
     //Attempt to open file
     QFile file(file_path);
@@ -119,9 +151,10 @@ void MainWindow::on_actionOpen_triggered()
     file.close();
 }
 
+//Action Event representing saving a document
 void MainWindow::on_actionSave_triggered()
 {
-    //If no file has been selected, call save as instead
+    //If no file has been selected, call "save as" instead
     if (file_path.length() == 0){
         MainWindow::on_actionSave_As_triggered();
         return;
@@ -154,13 +187,14 @@ void MainWindow::on_actionSave_triggered()
     file_changed = false;
 }
 
+//Action Event representing "Save As" function
 void MainWindow::on_actionSave_As_triggered()
 {
     //Specifies what types of files the program can open
     QString filters = "Text File (*.txt);;All Files (*.*)";
 
     //Prompts user with file dialog to locate desired file
-    file_path = QFileDialog::getSaveFileName(this,"Save File",QDir::homePath(),filters);
+    file_path = QFileDialog::getSaveFileName(this,"Save File",file_dir,filters);
 
     //Attempt to open file
     QFile file(file_path);
@@ -171,6 +205,9 @@ void MainWindow::on_actionSave_As_triggered()
 
     //Obtains file name
     file_name = getFileNameFromPath(file_path);
+
+    //Updates file directory
+    file_dir = getFileDirFromPath(file_path);
 
     //Updates window title with newly specified filename
     MainWindow::setWindowTitle(file_name + " - Notepad");
@@ -186,6 +223,17 @@ void MainWindow::on_actionSave_As_triggered()
 
     //Reset changed bool
     file_changed = false;
+}
+
+void MainWindow::on_actionChoose_Font_triggered()
+{
+    bool accept;
+
+    QFont font = QFontDialog::getFont(&accept, this);
+    if (accept){
+        ui->textEdit->setFont(font);
+    }
+    else return;
 }
 
 void MainWindow::on_actionCut_triggered()
@@ -219,9 +267,9 @@ void MainWindow::on_actionAbout_Notepad_triggered()
 }
 
 //The purpose of the code here is to append an asterisk to the name on the
-// window title to demonstrate the file is changed, and notify the user should
-// they attempt to close or open a file with unsaved changes to the
-// current document.
+// window title to signal that the file has been modified and to warn the
+// user should they attempt to close or open a file with unsaved changes
+// to the current document.
 void MainWindow::on_textEdit_textChanged()
 {
     //If we've found user has made a change..

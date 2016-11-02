@@ -19,6 +19,8 @@ public:
 private slots:
     QString getFileNameFromPath(QString);
 
+    QString getFileDirFromPath(QString);
+
     void closeEvent(QCloseEvent*);
 
     void on_actionNew_triggered();
@@ -43,11 +45,13 @@ private slots:
 
     void on_textEdit_textChanged();
 
+    void on_actionChoose_Font_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString file_path;
+    QString file_dir;
     QString file_name;
-    QString last_directory;
     bool file_changed;
 };
 
