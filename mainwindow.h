@@ -49,6 +49,8 @@ private slots:
 
     void on_action_Exit_triggered();
 
+    void on_actionInsert_Date_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString file_path;

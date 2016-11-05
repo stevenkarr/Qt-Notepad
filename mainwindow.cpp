@@ -8,6 +8,7 @@
 #include <QCloseEvent>
 #include <QFontDialog>
 #include <QFont>
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -308,4 +309,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::on_action_Exit_triggered()
 {
     this->close();
+}
+
+void MainWindow::on_actionInsert_Date_triggered()
+{
+    QDateTime dateTime = QDateTime::currentDateTime();
+    ui->textEdit->insertPlainText(dateTime.toString("MMMM d, yyyy"));
 }
