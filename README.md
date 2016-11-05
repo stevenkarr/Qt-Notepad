@@ -1,6 +1,6 @@
 # Qt-Notepad
 
-Lightweight notepad application created using Qt application framework over C++ code.
+Lightweight notepad application for Windows created using Qt application framework over C++ code.
 
 Author: Steven Karr
 Contact: stevenkarr93@gmail.com

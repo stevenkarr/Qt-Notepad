@@ -21,3 +21,5 @@ FORMS    += mainwindow.ui
 
 RESOURCES += \
     resource.qrc
+
+RC_ICONS = img\notepad.ico
