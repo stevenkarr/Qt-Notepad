@@ -47,6 +47,8 @@ private slots:
 
     void on_actionChoose_Font_triggered();
 
+    void on_action_Exit_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString file_path;

@@ -41,6 +41,7 @@
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
+    <addaction name="action_Exit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -215,6 +216,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+F</string>
+   </property>
+  </action>
+  <action name="action_Exit">
+   <property name="text">
+    <string>&amp;Exit</string>
    </property>
   </action>
  </widget>
