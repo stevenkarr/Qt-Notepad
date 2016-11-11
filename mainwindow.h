@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <findandreplace.h>
+#include <qtextformat.h>
 
 namespace Ui {
 class MainWindow;
@@ -15,6 +17,18 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void findNext(QString);
+
+    void findPrevious(QString);
+
+    void findAll(QString);
+
+    //void replaceNext(QString);
+
+    //void replacePrevious(QString);
+
+    //void replaceAll(QString);
 
 private slots:
     QString getFileNameFromPath(QString);
@@ -51,8 +65,11 @@ private slots:
 
     void on_actionInsert_Date_triggered();
 
+    void on_action_Find_and_Replace_triggered();
+
 private:
     Ui::MainWindow *ui;
+    FindAndReplace *findAndReplace;
     QString file_path;
     QString file_dir;
     QString file_name;

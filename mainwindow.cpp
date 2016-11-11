@@ -9,6 +9,9 @@
 #include <QFontDialog>
 #include <QFont>
 #include <QDateTime>
+#include <QTimer>
+#include <QTextBlock>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -306,13 +309,69 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
+//Exits program, coded specifically to trigger unsaved changes confirmation
 void MainWindow::on_action_Exit_triggered()
 {
     this->close();
 }
 
+//Inserts date plaintext to cursor position.
 void MainWindow::on_actionInsert_Date_triggered()
 {
     QDateTime dateTime = QDateTime::currentDateTime();
     ui->textEdit->insertPlainText(dateTime.toString("MMMM d, yyyy"));
+}
+
+void MainWindow::on_action_Find_and_Replace_triggered()
+{
+    findAndReplace = new FindAndReplace(this);
+    findAndReplace->setWindowFlags(Qt::Tool);
+    findAndReplace->show();
+    QApplication::setActiveWindow(findAndReplace);
+    //findAndReplace->setFocus();
+}
+
+void MainWindow::findNext(QString string){
+    ui->textEdit->find(string,QTextDocument::FindWholeWords);
+}
+
+void MainWindow::findPrevious(QString string){
+    ui->textEdit->find(string, QTextDocument::FindBackward);
+}
+
+void MainWindow::findAll(QString string){
+    //For use with setExtraSelections() method of textEdit..
+    //will hold selections of each found instance of passed string
+    QList<QTextEdit::ExtraSelection> occurencesOfString;
+
+    //Temporarily stores current cursor location to restore to later
+    QTextCursor tempCursor = ui->textEdit->textCursor();
+
+    //Move cursor to start so we can properly search whole doc
+    ui->textEdit->moveCursor(QTextCursor::Start);
+
+    //Standard highlight format
+    QColor format = QColor(Qt::blue);
+    format.setAlpha(80);
+
+    //Iterate through document, appending each occurence found to qlist
+    while (ui->textEdit->find(string)){
+        //Current selection found
+        QTextEdit::ExtraSelection currSelection;
+
+        //Set format
+        currSelection.format.setBackground(format);
+
+        //Assign to occurence
+        currSelection.cursor = ui->textEdit->textCursor();
+
+        //Append to our list containing all occurences
+        occurencesOfString.append(currSelection);
+    }
+
+    //Selects entire list of occurences of string
+    ui->textEdit->setExtraSelections(occurencesOfString);
+
+    //Resets cursor to what it was prior to calling findAll
+    ui->textEdit->setTextCursor(tempCursor);
 }

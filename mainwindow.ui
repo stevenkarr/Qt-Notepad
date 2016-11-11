@@ -56,6 +56,7 @@
     <addaction name="actionUndo"/>
     <addaction name="separator"/>
     <addaction name="actionInsert_Date"/>
+    <addaction name="action_Find_and_Replace"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -214,7 +215,7 @@
      <normaloff>:/img/img/font.png</normaloff>:/img/img/font.png</iconset>
    </property>
    <property name="text">
-    <string>Choose &amp;Font</string>
+    <string>F&amp;ont</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+F</string>
@@ -226,8 +227,24 @@
    </property>
   </action>
   <action name="actionInsert_Date">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/img/img/calendar.png</normaloff>:/img/img/calendar.png</iconset>
+   </property>
    <property name="text">
     <string>Insert &amp;Date</string>
+   </property>
+  </action>
+  <action name="action_Find_and_Replace">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/img/img/findandreplace.png</normaloff>:/img/img/findandreplace.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Find and Replace</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
  </widget>

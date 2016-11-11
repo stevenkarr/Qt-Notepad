@@ -39,3 +39,9 @@ Credits:
 -Save As icon:
 	Author: New Mooon
 	Source: http://findicons.com/icon/229845/document_save_as?id=229845
+-Find icon:
+	Author: Asher
+	Source: http://findicons.com/icon/86244/search?id=86366
+-Calendar icon:
+	Author: Asher
+	Source: http://findicons.com/icon/86283/calender?id=86414
