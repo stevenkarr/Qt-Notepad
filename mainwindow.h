@@ -22,13 +22,9 @@ public:
 
     void findPrevious(QString);
 
-    void findAll(QString);
+    void replaceNext(QString,QString);
 
-    //void replaceNext(QString);
-
-    //void replacePrevious(QString);
-
-    //void replaceAll(QString);
+    void replacePrevious(QString,QString);
 
 private slots:
     QString getFileNameFromPath(QString);

@@ -4,7 +4,7 @@ Lightweight notepad application for Windows created using Qt application framewo
 
 Author: Steven Karr
 Contact: stevenkarr93@gmail.com
-Date: 11-2-2016
+Date: 11-13-2016
 Credits:
 -Application/New icon:
 	Author: gakuseiSean

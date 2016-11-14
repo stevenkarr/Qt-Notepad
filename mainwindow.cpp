@@ -11,7 +11,6 @@
 #include <QDateTime>
 #include <QTimer>
 #include <QTextBlock>
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Initialize last directory
     file_dir = QDir::homePath();
+
 }
 
 MainWindow::~MainWindow()
@@ -328,7 +328,6 @@ void MainWindow::on_action_Find_and_Replace_triggered()
     findAndReplace->setWindowFlags(Qt::Tool);
     findAndReplace->show();
     QApplication::setActiveWindow(findAndReplace);
-    //findAndReplace->setFocus();
 }
 
 void MainWindow::findNext(QString string){
@@ -339,39 +338,12 @@ void MainWindow::findPrevious(QString string){
     ui->textEdit->find(string, QTextDocument::FindBackward);
 }
 
-void MainWindow::findAll(QString string){
-    //For use with setExtraSelections() method of textEdit..
-    //will hold selections of each found instance of passed string
-    QList<QTextEdit::ExtraSelection> occurencesOfString;
+void MainWindow::replaceNext(QString oldString, QString newString){
+    ui->textEdit->find(oldString,QTextDocument::FindWholeWords);
+    ui->textEdit->insertPlainText(newString);
+}
 
-    //Temporarily stores current cursor location to restore to later
-    QTextCursor tempCursor = ui->textEdit->textCursor();
-
-    //Move cursor to start so we can properly search whole doc
-    ui->textEdit->moveCursor(QTextCursor::Start);
-
-    //Standard highlight format
-    QColor format = QColor(Qt::blue);
-    format.setAlpha(80);
-
-    //Iterate through document, appending each occurence found to qlist
-    while (ui->textEdit->find(string)){
-        //Current selection found
-        QTextEdit::ExtraSelection currSelection;
-
-        //Set format
-        currSelection.format.setBackground(format);
-
-        //Assign to occurence
-        currSelection.cursor = ui->textEdit->textCursor();
-
-        //Append to our list containing all occurences
-        occurencesOfString.append(currSelection);
-    }
-
-    //Selects entire list of occurences of string
-    ui->textEdit->setExtraSelections(occurencesOfString);
-
-    //Resets cursor to what it was prior to calling findAll
-    ui->textEdit->setTextCursor(tempCursor);
+void MainWindow::replacePrevious(QString oldString, QString newString){
+    ui->textEdit->find(oldString, QTextDocument::FindBackward);
+    ui->textEdit->insertPlainText(newString);
 }

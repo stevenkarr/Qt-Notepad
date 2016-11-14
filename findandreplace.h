@@ -23,7 +23,9 @@ private slots:
 
     void on_pushButton_findPrevious_clicked();
 
-    void on_pushButton_findAll_clicked();
+    void on_pushButton_replaceNext_clicked();
+
+    void on_pushButton_replacePrevious_clicked();
 
 private:
     Ui::FindAndReplace *ui;

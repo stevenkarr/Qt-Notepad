@@ -65,13 +65,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_findAll">
-        <property name="text">
-         <string>&amp;All</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
@@ -89,7 +82,22 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_Replace"/>
+       <widget class="QLineEdit" name="lineEdit_Replace_Find"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>With</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_Replace_With"/>
       </item>
      </layout>
     </item>
@@ -106,13 +114,6 @@
        <widget class="QPushButton" name="pushButton_replacePrevious">
         <property name="text">
          <string>P&amp;revious</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_replaceAll">
-        <property name="text">
-         <string>A&amp;ll</string>
         </property>
        </widget>
       </item>
