@@ -63,6 +63,8 @@ private slots:
 
     void on_action_Find_and_Replace_triggered();
 
+    void on_action_Print_triggered();
+
 private:
     Ui::MainWindow *ui;
     FindAndReplace *findAndReplace;

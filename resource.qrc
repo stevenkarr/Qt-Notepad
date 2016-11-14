@@ -13,5 +13,6 @@
         <file>img/font.png</file>
         <file>img/calendar.png</file>
         <file>img/findandreplace.png</file>
+        <file>img/print.png</file>
     </qresource>
 </RCC>

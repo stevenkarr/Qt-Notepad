@@ -11,6 +11,8 @@
 #include <QDateTime>
 #include <QTimer>
 #include <QTextBlock>
+#include <QPrinter>
+#include <QPrintDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -346,4 +348,17 @@ void MainWindow::replaceNext(QString oldString, QString newString){
 void MainWindow::replacePrevious(QString oldString, QString newString){
     ui->textEdit->find(oldString, QTextDocument::FindBackward);
     ui->textEdit->insertPlainText(newString);
+}
+
+void MainWindow::on_action_Print_triggered()
+{
+    QPrinter printer;
+    printer.setPrinterName("Desired printer name?...");
+    QPrintDialog dialog(&printer,this);
+    if (dialog.exec() == QDialog::Rejected){
+        return;
+    }
+    else {
+        ui->textEdit->print(&printer);
+    }
 }

@@ -48,6 +48,7 @@
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
+    <addaction name="action_Print"/>
     <addaction name="action_Exit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -96,6 +97,7 @@
    <addaction name="actionRedo"/>
    <addaction name="actionUndo"/>
    <addaction name="separator"/>
+   <addaction name="action_Print"/>
    <addaction name="actionAbout_Notepad"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
@@ -253,6 +255,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="action_Print">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/img/img/print.png</normaloff>:/img/img/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>

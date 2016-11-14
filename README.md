@@ -45,3 +45,6 @@ Credits:
 -Calendar icon:
 	Author: Asher
 	Source: http://findicons.com/icon/86283/calender?id=86414
+-Print icon:
+	Author: Ahmad Hania
+	Source: http://findicons.com/icon/55433/printer?id=55577
