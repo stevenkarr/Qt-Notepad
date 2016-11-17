@@ -30,7 +30,6 @@ private slots:
 private:
     Ui::FindAndReplace *ui;
     MainWindow *mwParent;
-    bool findingAll;
 };
 
 #endif // FINDANDREPLACE_H

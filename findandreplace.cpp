@@ -13,9 +13,6 @@ FindAndReplace::FindAndReplace(MainWindow *parent) :
 
     //Set focus so that user can immediately start typing
     ui->lineEdit_Find->setFocus();
-
-    //Initializes findAll tracker
-    findingAll = false;
 }
 
 FindAndReplace::~FindAndReplace()
@@ -31,7 +28,6 @@ void FindAndReplace::on_pushButton_findNext_clicked()
         return;
     }
     else {
-
         mwParent->findNext(ui->lineEdit_Find->text());
         return;
     }

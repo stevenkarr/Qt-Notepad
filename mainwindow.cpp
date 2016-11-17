@@ -9,8 +9,6 @@
 #include <QFontDialog>
 #include <QFont>
 #include <QDateTime>
-#include <QTimer>
-#include <QTextBlock>
 #include <QPrinter>
 #include <QPrintDialog>
 
@@ -269,7 +267,7 @@ void MainWindow::on_actionUndo_triggered()
 
 void MainWindow::on_actionAbout_Notepad_triggered()
 {
-    QMessageBox::information(this,"About Notepad","Notepad\nVersion .9, Rev 0\nDate of release: 10/26/16\nLicense: GNU General Public License\nAuthor: Steven Karr\nContact: stevenkarr93@gmail.com");
+    QMessageBox::information(this,"About Notepad","Notepad\nDate of release: 11/17/16\nLicense: GNU General Public License\nAuthor: Steven Karr\nContact: stevenkarr93@gmail.com");
 }
 
 //The purpose of the code here is to append an asterisk to the name on the
@@ -324,6 +322,7 @@ void MainWindow::on_actionInsert_Date_triggered()
     ui->textEdit->insertPlainText(dateTime.toString("MMMM d, yyyy"));
 }
 
+//Opens the find and replace search window
 void MainWindow::on_action_Find_and_Replace_triggered()
 {
     findAndReplace = new FindAndReplace(this);
@@ -350,10 +349,11 @@ void MainWindow::replacePrevious(QString oldString, QString newString){
     ui->textEdit->insertPlainText(newString);
 }
 
+//Opens a standard print dialog for the user
 void MainWindow::on_action_Print_triggered()
 {
     QPrinter printer;
-    printer.setPrinterName("Desired printer name?...");
+    printer.setPrinterName("Printer_Name");
     QPrintDialog dialog(&printer,this);
     if (dialog.exec() == QDialog::Rejected){
         return;
