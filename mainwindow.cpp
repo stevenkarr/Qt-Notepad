@@ -235,7 +235,11 @@ void MainWindow::on_actionChoose_Font_triggered()
 
     QFont font = QFontDialog::getFont(&accept, this);
     if (accept){
-        ui->textEdit->setFont(font);
+        QTextCursor cursor = ui->textEdit->textCursor();
+        QTextCharFormat format;
+        format.setFont(font);
+        cursor.setCharFormat(format);
+        ui->textEdit->setTextCursor(cursor);
     }
     else return;
 }
