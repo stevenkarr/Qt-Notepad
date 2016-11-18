@@ -48,12 +48,12 @@ void FindAndReplace::on_pushButton_findPrevious_clicked()
 void FindAndReplace::on_pushButton_replaceNext_clicked()
 {
     //Check if search box is empty. If so, do nothing
-    if (ui->lineEdit_Replace_Find->text().length() == 0 ||
+    if (ui->lineEdit_Find->text().length() == 0 ||
             ui->lineEdit_Replace_With->text().length() == 0){
         return;
     }
     else {
-        mwParent->replaceNext(ui->lineEdit_Replace_Find->text(),
+        mwParent->replaceNext(ui->lineEdit_Find->text(),
                               ui->lineEdit_Replace_With->text());
         return;
     }
@@ -62,12 +62,12 @@ void FindAndReplace::on_pushButton_replaceNext_clicked()
 void FindAndReplace::on_pushButton_replacePrevious_clicked()
 {
     //Check if search box is empty. If so, do nothing
-    if (ui->lineEdit_Replace_Find->text().length() == 0 ||
+    if (ui->lineEdit_Find->text().length()  == 0 ||
             ui->lineEdit_Replace_With->text().length() == 0){
         return;
     }
     else {
-        mwParent->replacePrevious(ui->lineEdit_Replace_Find->text(),
+        mwParent->replacePrevious(ui->lineEdit_Find->text(),
                               ui->lineEdit_Replace_With->text());
         return;
     }
