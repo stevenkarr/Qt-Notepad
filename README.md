@@ -1,5 +1,5 @@
 # Program Overview:
-The program is a lightweight notepad application for Windows 7 created using Qt application framework over C++ code. Its purpose is to demonstrate knowledge of the Qt application framework and C++. The repository contains a deployed copy of the code in the release folder. Credits belong to Steven Karr for all coding and to various authors for icon artwork, see readme.
+The program is a lightweight notepad application for Windows 7 created using Qt application framework over C++ code. Its purpose is to demonstrate knowledge of the Qt application framework and C++.
 
 ## Demonstration of Features:
 
@@ -57,7 +57,6 @@ The program is a lightweight notepad application for Windows 7 created using Qt 
 ### Credits:
 
 * Author: Steven Karr
-* Contact: stevenkarr93@gmail.com
 * Date: 11-18-2016
 
 * Application/New icon:
